@@ -32,6 +32,7 @@ config/debs_generate_out_of_order.json
 ```
 
 The data generator adds two time columns in ms, 1. processing time, 2. event time.
+The out of order delay is normally distributed between minDelay and maxDelay.
 
 
 ### Verifier:
