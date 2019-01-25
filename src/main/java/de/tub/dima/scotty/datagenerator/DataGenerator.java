@@ -54,7 +54,7 @@ public class DataGenerator {
 			if (dataTuple.eventTime > config.endTime)
 				break;
 
-			if (dataTuple.key.equals(config.keySelect) && dataTuple.eventTime > config.startTime) {
+			if ((config.keySelect.equals("-1") || dataTuple.key.equals(config.keySelect)) && dataTuple.eventTime > config.startTime) {
 				dataTuple.eventTime = scaleTime(config.srcTimeScale, dataTuple.eventTime);
 				dataTuple.processTime = dataTuple.eventTime;
 				experimentGenerators.forEach(item ->

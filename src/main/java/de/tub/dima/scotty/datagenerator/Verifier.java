@@ -5,12 +5,22 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 /**
- * Created by philipp on 6/13/17.
+ *   /$$$$$$             /$$$$$$        /$$    /$$                    /$$  /$$$$$$  /$$
+ *  /$$__  $$           /$$__  $$      | $$   | $$                   |__/ /$$__  $$|__/
+ * | $$  \ $$  /$$$$$$ | $$  \ $$      | $$   | $$ /$$$$$$   /$$$$$$  /$$| $$  \__/ /$$  /$$$$$$   /$$$$$$
+ * | $$  | $$ /$$__  $$| $$  | $$      |  $$ / $$//$$__  $$ /$$__  $$| $$| $$$$    | $$ /$$__  $$ /$$__  $$
+ * | $$  | $$| $$  \ $$| $$  | $$       \  $$ $$/| $$$$$$$$| $$  \__/| $$| $$_/    | $$| $$$$$$$$| $$  \__/
+ * | $$  | $$| $$  | $$| $$  | $$        \  $$$/ | $$_____/| $$      | $$| $$      | $$| $$_____/| $$
+ * |  $$$$$$/|  $$$$$$/|  $$$$$$/         \  $/  |  $$$$$$$| $$      | $$| $$      | $$|  $$$$$$$| $$
+ *  \______/  \______/  \______/           \_/    \_______/|__/      |__/|__/      |__/ \_______/|__/
  */
 public class Verifier {
 
 	public static void main(String[] args) throws Exception {
 
+		if(args.length != 2){
+			throw  new Exception("Pass the path to the out of order data file and the index of the event time field");
+		}
 		String path = args[0];
 		int timeIndex = Integer.valueOf(args[1]);
 
