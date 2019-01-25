@@ -1,24 +1,16 @@
 {
   "outputFilePath":"data/",
-  "rawFilePath": "data/simpleDataset.tar.gz",
+  "rawFilePath": "/home/philipp/debs2013.data.tar.gz",
   "keyIndex": 0,
   "keySelect": 4,
   "srcTimeScale": "ps",
   "timeIndex": 1,
   "seperator": ",",
-  "valueIndex": 3,
-  "startTime": 0,
+  "startTime": 11043295594424116,
   "endTime": 11053295594424116,
   "generatorConfigurations": [
     {
-      "eventsPerSecond": 2000,
-      "outOfOrder": 10,
-      "maxDelay": 2000,
-      "minDelay": 0
-    },
-    {
-      "eventsPerSecond": 2000,
-      "outOfOrder": 20,
+      "outOfOrder": 50,
       "maxDelay": 2000,
       "minDelay": 0
     }

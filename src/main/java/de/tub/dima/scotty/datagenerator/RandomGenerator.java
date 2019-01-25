@@ -10,7 +10,7 @@ public class RandomGenerator {
 
 	private final Random random;
 
-	public RandomGenerator(int seed, String distribution) {
+	public RandomGenerator(int seed) {
 		this.random = new Random(seed);
 	}
 

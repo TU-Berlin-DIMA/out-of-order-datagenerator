@@ -12,7 +12,6 @@ public class DataGeneratorConfig {
 	public String keySelect;
 	public Integer timeIndex;
 	public String srcTimeScale;
-	public Integer valueIndex;
 	public Long startTime;
 	public Long endTime;
 	public String seperator;

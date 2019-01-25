@@ -40,7 +40,7 @@ public class DataGenerator {
 				return null;
 			return new DataTuple(
 				split[config.keyIndex].trim(),
-				split[config.valueIndex].trim(),
+				split,
 				Long.valueOf(split[config.timeIndex].trim())
 			);
 		});

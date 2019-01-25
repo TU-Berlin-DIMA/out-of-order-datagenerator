@@ -6,13 +6,13 @@ package de.tub.dima.scotty.datagenerator;
 public class DataTuple {
 
 	public String key;
-	public String value;
+	public String[] values;
 	public Long eventTime;
 	public Long processTime;
 
-	public DataTuple(final String key, final String value, final Long time) {
+	public DataTuple(final String key, final String[] values, final Long time) {
 		this.key = key;
-		this.value = value;
+		this.values = values;
 		this.eventTime = time;
 		this.processTime = time;
 
