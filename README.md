@@ -1,11 +1,11 @@
 # Out of order data generator
 
-This projects manipulates the event time of the DEBS 2013 data set.
-For this we provide two executables, the data generator and the verifier.
+This project manipulates the event time of the DEBS 2013 data set.
+For this, we provide two executables, the data generator, and the verifier.
 
 ### Data Generator:
 
-The data generator is custamized by a config file: 
+The data generator is customized by a config file: 
 Example in:
 config/debs_generate_out_of_order.json
 
@@ -33,6 +33,7 @@ config/debs_generate_out_of_order.json
 
 The data generator adds two time columns in ms, 1. processing time, 2. event time.
 The out of order delay is normally distributed between minDelay and maxDelay.
+
 
 
 ### Verifier:
