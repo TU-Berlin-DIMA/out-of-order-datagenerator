@@ -1,61 +1,80 @@
 package de.tub.dima.scotty.datagenerator;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import org.apache.commons.cli.*;
+import org.apache.commons.math3.ml.neuralnet.twod.util.*;
+
+import java.io.*;
+import java.util.*;
 
 /**
- *   /$$$$$$             /$$$$$$        /$$    /$$                    /$$  /$$$$$$  /$$
- *  /$$__  $$           /$$__  $$      | $$   | $$                   |__/ /$$__  $$|__/
+ * /$$$$$$             /$$$$$$        /$$    /$$                    /$$  /$$$$$$  /$$
+ * /$$__  $$           /$$__  $$      | $$   | $$                   |__/ /$$__  $$|__/
  * | $$  \ $$  /$$$$$$ | $$  \ $$      | $$   | $$ /$$$$$$   /$$$$$$  /$$| $$  \__/ /$$  /$$$$$$   /$$$$$$
  * | $$  | $$ /$$__  $$| $$  | $$      |  $$ / $$//$$__  $$ /$$__  $$| $$| $$$$    | $$ /$$__  $$ /$$__  $$
  * | $$  | $$| $$  \ $$| $$  | $$       \  $$ $$/| $$$$$$$$| $$  \__/| $$| $$_/    | $$| $$$$$$$$| $$  \__/
  * | $$  | $$| $$  | $$| $$  | $$        \  $$$/ | $$_____/| $$      | $$| $$      | $$| $$_____/| $$
  * |  $$$$$$/|  $$$$$$/|  $$$$$$/         \  $/  |  $$$$$$$| $$      | $$| $$      | $$|  $$$$$$$| $$
- *  \______/  \______/  \______/           \_/    \_______/|__/      |__/|__/      |__/ \_______/|__/
+ * \______/  \______/  \______/           \_/    \_______/|__/      |__/|__/      |__/ \_______/|__/
  */
 public class Verifier {
 
-	public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
-		if(args.length != 2){
-			throw  new Exception("Pass the path to the out of order data file and the index of the event time field");
-		}
-		String path = args[0];
-		int timeIndex = Integer.valueOf(args[1]);
-
-		long numberOfEvents = 0;
-		long numberOfOutOfOrderEvents = 0;
-		long maxDelay = 0;
-		long maxTS = 0;
-
-		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
-		String[] tuple = readNextTuple(reader);
-		while (tuple != null) {
-			numberOfEvents++;
-			Long ts = Long.valueOf(tuple[timeIndex]);
-			maxTS = Math.max(maxTS, ts);
-			if (ts < maxTS) {
-				//out Of order
-				numberOfOutOfOrderEvents++;
-				maxDelay = Math.max(maxDelay, maxTS - ts);
-			}
-			tuple = readNextTuple(reader);
-		}
-
-		System.out.println("events : " + numberOfEvents);
-		System.out.println("outOfOrderEvents : " + numberOfOutOfOrderEvents);
-		System.out.println("outOfOrder % : " + ((100.0 / numberOfEvents) * numberOfOutOfOrderEvents));
-		System.out.println("maxDelay: " + maxDelay);
+        Options options = new Options();
+        options.addOption("path","filePath", true,"filepath");
+        Option timeindex = Option.builder("ti")
+                .required(true)
+                .hasArg()
+                .build();
+        options = options.addOption(timeindex);
+        options.addOption("td","timedomain", true,"Time domain for event time (ps, ns, mic, mi, s");
 
 
-	}
+        CommandLineParser parser = new DefaultParser();
+        CommandLine cli = parser.parse(options, args);
 
-	private static String[] readNextTuple(BufferedReader reader) throws Exception {
-		final String line = reader.readLine();
-		if (line == null)
-			return null;
-		return line.split(",");
-	}
+        String path = cli.getOptionValue("path");
+        int timeIndex = Integer.valueOf(cli.getOptionValue("ti"));
+        String timeDomain = cli.getOptionValue("td");
+
+        long numberOfEvents = 0;
+        long numberOfEventsInSec = 0;
+        long numberOfOutOfOrderEvents = 0;
+        long maxTS = 0;
+        LongSummaryStatistics delays = new LongSummaryStatistics();
+        LongSummaryStatistics frequency = new LongSummaryStatistics();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+        String[] tuple = readNextTuple(reader);
+
+        long lastSec = 0;
+        while (tuple != null) {
+            numberOfEvents++;
+            long ts = Long.valueOf(tuple[timeIndex]);
+            maxTS = Math.max(maxTS, ts);
+            if (ts < maxTS) {
+                //out Of order
+                numberOfOutOfOrderEvents++;
+                long eventDelay = maxTS - ts;
+                delays.accept(eventDelay);
+            }
+            tuple = readNextTuple(reader);
+        }
+
+
+        System.out.println("events : " + numberOfEvents);
+        System.out.println("outOfOrderEvents : " + numberOfOutOfOrderEvents);
+        System.out.println("outOfOrder % : " + ((100.0 / numberOfEvents) * numberOfOutOfOrderEvents));
+        System.out.println("maxDelay: " + delays.getMax());
+        System.out.println("minDelay: " + delays.getMin());
+        System.out.println("averageDelay: " + delays.getAverage());
+    }
+
+
+    private static String[] readNextTuple(BufferedReader reader) throws Exception {
+        final String line = reader.readLine();
+        if (line == null)
+            return null;
+        return line.split(",");
+    }
 
 }

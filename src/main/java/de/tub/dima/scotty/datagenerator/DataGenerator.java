@@ -55,7 +55,7 @@ public class DataGenerator {
 				break;
 
 			if ((config.keySelect.equals("-1") || dataTuple.key.equals(config.keySelect)) && dataTuple.eventTime > config.startTime) {
-				dataTuple.eventTime = scaleTime(config.srcTimeScale, dataTuple.eventTime);
+				dataTuple.eventTime = TimeUtil.scaleTimeToMS(config.srcTimeScale, dataTuple.eventTime);
 				dataTuple.processTime = dataTuple.eventTime;
 				experimentGenerators.forEach(item ->
 					item.addDataTuple(dataTuple));
@@ -78,20 +78,6 @@ public class DataGenerator {
 		}
 	}
 
-	private static Long scaleTime(String timeScale, long timeValue) {
-		//System.out.println(timeValue);
-		switch (timeScale) {
-			case "ps":
-				return timeValue / 1000000000;
-			case "ns":
-				return timeValue / 1000000;
-			case "ms":
-				return timeValue;
-			case "s":
-				return timeValue + 1000;
-		}
-		return timeValue;
-	}
 
 	private static Stream<String> getFileStream(String filePath) throws Exception {
 		final GZIPInputStream gzipStream = new GZIPInputStream(new FileInputStream(filePath));
