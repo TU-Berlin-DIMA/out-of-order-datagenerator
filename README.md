@@ -8,7 +8,6 @@ Evaluating modern stream processing systems in a reproduciblemanner requires dat
 The out of order data generator was accepted at the [DEBS 2019](http://debs2019.org/).
 A pre print will be released soon.
 
-For this, we provide two executables, the data generator, and the verifier.
 
 ### Data Generator:
 
