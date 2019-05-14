@@ -1,6 +1,13 @@
-# Out of order data generator
+# Generating Reproducible Out-of-Order Data Streams
 
-This project manipulates the event time of the DEBS 2013 data set.
+Evaluating modern stream processing systems in a reproduciblemanner requires data streams with different data distributions,data rates, and real-world characteristics such as delayed and out-of-order tuples. In this paper, we present an open source streamgenerator which generates reproducible and deterministic out-of-order streams, simulating arbitrary fractions of out-of-order tuplesand their respective delays.
+
+
+### Poster:
+
+The out of order data generator was accepted at the [DEBS 2019](http://debs2019.org/).
+A pre print will be released soon.
+
 For this, we provide two executables, the data generator, and the verifier.
 
 ### Data Generator:
